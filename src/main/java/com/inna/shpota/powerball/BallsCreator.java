@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class BallsCreator {
 
-    public Balls create() {
+    public Balls randomBalls() {
         List<Integer> whiteBalls = new ArrayList<>(5);
         for (int i = 0; i < 69; i++) {
             int ball = new Random().nextInt(69) + 1;
