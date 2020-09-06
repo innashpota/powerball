@@ -6,6 +6,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.*;
 
+import static java.lang.Math.abs;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
@@ -20,7 +21,7 @@ public class PowerballGameTest {
 
         List<Ticket> tickets = null;
         BallsCreator ballsCreator = new BallsCreator();
-        new PowerballGame(tickets, ballsCreator.create());
+        new PowerballGame(tickets, ballsCreator.randomBalls());
     }
 
     @Test
@@ -54,7 +55,7 @@ public class PowerballGameTest {
 
     @Test
     public void shouldCheckProbability() {
-        Balls winningBalls = new BallsCreator().create();
+        Balls winningBalls = new BallsCreator().randomBalls();
         List<Ticket> randomTickets = getRandomTickets();
         PowerballGame game = new PowerballGame(randomTickets, winningBalls);
 
@@ -64,34 +65,34 @@ public class PowerballGameTest {
         Set<String> matches = totalTicketsByMatch.keySet();
         matches
                 .forEach(match -> {
-                    Long totalTicketByMatch = totalTicketsByMatch.get(match);
-                    float experimentalProbability = (float) totalTicketByMatch / randomTickets.size();
+                    long totalTicketByMatch = totalTicketsByMatch.get(match);
+                    double experimentalProbability = (double) totalTicketByMatch / randomTickets.size();
                     assertTrue(
-                            experimentalProbability - getTheoreticalProbability(match) < (float) 1 / 1000
+                            abs(experimentalProbability - getTheoreticalProbability(match)) < 0.001
                     );
                 });
     }
 
-    private float getTheoreticalProbability(String match) {
-        float theoreticalProbability = 0;
+    private double getTheoreticalProbability(String match) {
+        double theoreticalProbability = 0;
         if ("0 + 1".equals(match)) {
-            theoreticalProbability = (float) (1 / 38.32);
+            theoreticalProbability = 1 / 38.32;
         } else if ("1 + 1".equals(match)) {
-            theoreticalProbability = (float) (1 / 91.98);
+            theoreticalProbability = 1 / 91.98;
         } else if ("2 + 1".equals(match)) {
-            theoreticalProbability = (float) (1 / 701.33);
+            theoreticalProbability = 1 / 701.33;
         } else if ("3 + 0".equals(match)) {
-            theoreticalProbability = (float) (1 / 579.76);
+            theoreticalProbability = 1 / 579.76;
         } else if ("3 + 1".equals(match)) {
-            theoreticalProbability = (float) (1 / 14494.11);
+            theoreticalProbability = 1 / 14494.11;
         } else if ("4 + 0".equals(match)) {
-            theoreticalProbability = (float) (1 / 36525.17);
+            theoreticalProbability = 1 / 36525.17;
         } else if ("4 + 1".equals(match)) {
-            theoreticalProbability = (float) (1 / 913129.18);
+            theoreticalProbability = 1 / 913129.18;
         } else if ("5 + 0".equals(match)) {
-            theoreticalProbability = (float) (1 / 11688053.52);
+            theoreticalProbability = 1 / 11688053.52;
         } else if ("5 + 1".equals(match)) {
-            theoreticalProbability = (float) 1 / 292201338;
+            theoreticalProbability = 1 / 292201338.0;
         }
         return theoreticalProbability;
     }
@@ -100,7 +101,7 @@ public class PowerballGameTest {
         List<Ticket> tickets = new ArrayList<>();
         String owner = "Sam Jayson";
         for (int i = 0; i < 1000000; i++) {
-            Balls balls = new BallsCreator().create();
+            Balls balls = new BallsCreator().randomBalls();
             Ticket ticket = new Ticket(owner + balls.toString(), balls);
             tickets.add(ticket);
         }
