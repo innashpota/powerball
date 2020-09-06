@@ -22,9 +22,9 @@ public class PowerballGame {
 
     public Result result() {
         List<Winner> winners = getWinners();
-        Map<String, Long> totalPrizeByMatch = calculateTotalPrizeByMatch(winners);
+        Map<String, Long> totalTicketsByMatch = calculateTotalTicketsByMatch(winners);
         int totalPrize = calculateTotalPrize(winners);
-        return new Result(winners, winningBalls, totalPrizeByMatch, totalPrize);
+        return new Result(winners, winningBalls, totalTicketsByMatch, totalPrize);
     }
 
     private List<Winner> getWinners() {
@@ -46,8 +46,8 @@ public class PowerballGame {
         return winners;
     }
 
-    private Map<String, Long> calculateTotalPrizeByMatch(List<Winner> winners) {
-        Map<String, Long> totalByMatch = new HashMap<>();
+    private Map<String, Long> calculateTotalTicketsByMatch(List<Winner> winners) {
+        Map<String, Long> totalTicketsByMatch = new HashMap<>();
         winners.stream()
                 .map(Winner::getMatch)
                 .distinct()
@@ -55,9 +55,9 @@ public class PowerballGame {
                     long count = winners.stream()
                             .filter(winner -> winner.getMatch().equals(match))
                             .count();
-                    totalByMatch.put(match, count);
+                    totalTicketsByMatch.put(match, count);
                 });
-        return totalByMatch;
+        return totalTicketsByMatch;
     }
 
     private int calculateTotalPrize(List<Winner> winners) {
