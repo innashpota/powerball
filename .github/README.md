@@ -8,7 +8,7 @@ A java library implementing rules of
 ```java
 // initialize a game
 List<Ticket> tickets = asList(ticket1, ticket2, ...);
-Balls balls = new BallsCreator().randomBalls();
+Balls winningBalls = new BallsCreator().randomBalls();
 PowerballGame game = new PowerballGame(tickets, winningBalls);
 
 // calculate a result
